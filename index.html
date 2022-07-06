@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="greet.js"></script>
+    <script src="transport-fee.js"></script>
+    <script src="enough-airtime.js"></script>
+    <script src="total-phone-bill.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<style>
+    body {
+        background-color: red;
+        color: #fff;
+    }
+    h1 {
+        text-align: center;
+    }
+    .widget {
+        flex: 1;
+        border: 1em solid yellow;
+        margin: 1em;
+        padding: 1em;
+        background-color: transparent;
+        font-family: cursive;
+    }
+    .message {
+        padding: 1em;
+        background-color: yellow;
+        margin-bottom: 1em;
+        font-weight: bold;
+        color: black;
+    }
+    .input>label {
+        display: inline-block;
+        width: 15em;
+        padding: 0.5em;
+    }
+    .input>input[type="text"] {
+        padding: 0.5em;
+        margin: 0.5em;
+        background-color: #fff;
+        font-size: medium;
+        border: 0em;
+    }
+    .currency {
+        margin-left: -1em;
+        margin-inline: -0.5em;
+        color: black;
+    }
+    .btn {
+        padding: 1em 0em 1em 0em;
+        width: 13em;
+        background-color: yellow;
+        color: black;
+        font-weight: bold;
+        border: 0;
+        margin: 1em;
+    }
+    @media only screen and (min-width:768px) {
+        .body {
+            align-items: center;
+        }
+        .row {
+            display: flex;
+        }
+    }
+</style>
+<body>
+    <h1>AlpineJS Widgets</h1>
+    <div class="container">
+        <div class="row">
+            <div class="widget" x-data="{
+                name: '',
+                message: '',
+                greetMe() {
+                    const greetingMessage = greet(this.name)
+                    this.message = greetingMessage;
+                    setTimeout(() => {
+                        this.message = '';
+                    }, 3000);
+                }
+            }">
+                <h2>Greet Widget</h2>
+                <div x-show="message.length > 0" class="message" x-text="message"></div>
+                <div class="input">
+                    <label for="name">Please enter your name: </label>
+                    <input type="text" x-model="name" id="name">
+                </div>
+                <div class="">
+                    <button x-on:click="greetMe" class="btn">GREET</button>
+                </div>
+            </div>
+            <div class="widget" x-data="{
+                tarrif: '',
+                usageMessage: '',
+                calculate() {
+                    this.usageMessage = totalPhoneBill(this.tarrif)
+                    setTimeout(() => {
+                        this.usageMessage = '';
+                    }, 3000);
+                }
+            }">
+                <h2>Total Phonebill Widget</h2>
+                <div class="input">
+                    <label for="usedAirtime">Please enter your airtime usage: </label>
+                    <input type="text" x-model="tarrif" id="usedAirtime">
+                </div>
+                <div x-show="usageMessage.length > 0" class="message" x-text="usageMessage"></div>
+                <div class="">
+                    <button x-on:click="calculate" class="btn">AIRTIME BILL</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="widget" x-data="{
+                shift: '',
+                price: '',
+                functionFee() {
+                    const priceMessage = transportFee(this.shift)
+                    this.price = priceMessage;
+                    setTimeout(() => {
+                        this.price = '';
+                    }, 3000);
+                }
+            }">
+                <h2>Transport Fee Widget</h2>
+                <div x-show="price.length > 0" class="message" x-text="price"></div>
+                <div class="input">
+                    <label for="shift">Please enter your working shift: </label>
+                    <input type="text" x-model="shift" id="shift">
+                </div>
+                <div class="">
+                    <button x-on:click="functionFee" class="btn">TRANSPORT COST</button>
+                </div>
+            </div>
+            <div class="widget" x-data="{
+                airtimeUsage: '',
+                availableAmount: '',
+                airtimeMessage: '',
+                calculate() {
+                    this.airtimeMessage = enoughAirtime(this.airtimeUsage, this.availableAmount)
+                    setTimeout(() => {
+                        this.airtimeMessage = '';
+                    }, 3000);
+                }
+            }">
+                <h2>Enough Airtime Widget</h2>
+                <div class="input">
+                    <label for="usage">Please enter your airtime usage: </label>
+                    <input type="text" x-model="airtimeUsage" id="usage">
+                </div>
+                <div class="input">
+                    <label for="amount">Amount available: </label>
+                    <span class="currency">R</span>
+                    <input type="text" x-model="availableAmount" id="amount">
+                </div>
+                <div x-show="airtimeMessage.length > 0" class="message" x-text="airtimeMessage"></div>
+                <div class="">
+                    <button x-on:click="calculate" class="btn">AVAILABLE BALANCE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
